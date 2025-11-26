@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Translator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">🌐 AI Translator</h1>
+    
+    <!-- AI Service Selection -->
+    <div class="section">
+      <label for="aiService">AI Service:</label>
+      <select id="aiService" class="select">
+        <option value="gemini">Google Gemini</option>
+        <option value="perplexity">Perplexity AI</option>
+      </select>
+    </div>
+
+    <!-- Gemini API Key Section -->
+    <div class="section" id="geminiSection">
+      <label for="apiKey">Gemini API Key:</label>
+      <div class="input-group">
+        <input 
+          type="password" 
+          id="apiKey" 
+          placeholder="Enter your Gemini API key"
+          autocomplete="off"
+        />
+        <button id="saveApiKey" class="btn-secondary">Save</button>
+      </div>
+      <p class="hint">Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+    </div>
+
+    <!-- Perplexity API Key Section -->
+    <div class="section" id="perplexitySection" style="display: none;">
+      <label for="perplexityApiKey">Perplexity API Key:</label>
+      <div class="input-group">
+        <input 
+          type="password" 
+          id="perplexityApiKey" 
+          placeholder="Enter your Perplexity API key"
+          autocomplete="off"
+        />
+        <button id="savePerplexityApiKey" class="btn-secondary">Save</button>
+      </div>
+      <p class="hint">Get your API key from <a href="https://www.perplexity.ai/settings/api" target="_blank">Perplexity Settings</a></p>
+    </div>
+
+    <!-- Language Selection -->
+    <div class="section">
+      <label for="targetLang">Target Language:</label>
+      <select id="targetLang" class="select">
+        <option value="English">English</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Vietnamese">Vietnamese</option>
+      </select>
+    </div>
+
+    <!-- Translation Mode -->
+    <div class="section">
+      <label class="checkbox-label">
+        <input type="checkbox" id="showBelowMode" />
+        <span>Show translation below original text</span>
+      </label>
+      <p class="hint">Original text will remain, translation appears underneath</p>
+    </div>
+
+    <!-- Translate Button -->
+    <button id="translateBtn" class="btn-primary">
+      <span class="btn-text">Translate Page</span>
+    </button>
+
+    <!-- Restore Original Button -->
+    <button id="restoreBtn" class="btn-restore">
+      <span class="btn-text">↺ Restore Original</span>
+    </button>
+
+    <!-- Status Message -->
+    <div id="status" class="status hidden"></div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p class="loading-text">Translating...</p>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
