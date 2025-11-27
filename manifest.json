@@ -1,8 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "AI Webpage Translator",
+  "name": "__MSG_extName__",
   "version": "1.0.0",
-  "description": "Translate webpages using AI API",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "background": {
+    "service_worker": "background.js"
+  },
   "permissions": [
     "activeTab",
     "scripting",

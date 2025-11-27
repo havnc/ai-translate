@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gemini Translator</title>
+  <title data-i18n="extName"></title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1 class="title">🌐 AI Translator</h1>
-      <button id="settingsBtn" class="settings-btn" title="Settings">
+      <h1 class="title" data-i18n="appTitle"></h1>
+      <button id="settingsBtn" class="settings-btn" data-i18n-title="settings">
         ⚙️
       </button>
     </div>
@@ -19,11 +19,11 @@
 
     <!-- Language Selection -->
     <div class="section">
-      <label for="targetLang">Target Language:</label>
+      <label for="targetLang" data-i18n="targetLanguage"></label>
       <select id="targetLang" class="select">
-        <option value="English">English</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Vietnamese">Vietnamese</option>
+        <option value="English" data-i18n="languageEnglish"></option>
+        <option value="Japanese" data-i18n="languageJapanese"></option>
+        <option value="Vietnamese" data-i18n="languageVietnamese"></option>
       </select>
     </div>
 
@@ -31,34 +31,34 @@
     <div class="section">
       <label class="checkbox-label">
         <input type="checkbox" id="showBelowMode" />
-        <span>Show translation below original text</span>
+        <span data-i18n="showBelowMode"></span>
       </label>
-      <p class="hint">Original text will remain, translation appears underneath</p>
+      <p class="hint" data-i18n="showBelowModeHint"></p>
     </div>
 
     <!-- Custom Text Translation -->
     <div class="section">
-      <label for="customText">Custom Text Translation:</label>
+      <label for="customText" data-i18n="customTextTranslation"></label>
       <textarea 
         id="customText" 
-        placeholder="Enter text to translate..."
+        data-i18n-placeholder="customTextPlaceholder"
         rows="4"
       ></textarea>
-      <p class="hint">Enter your own text to translate directly in the popup</p>
+      <p class="hint" data-i18n="customTextHint"></p>
       <button id="translateCustomBtn" class="btn-custom">
-        <span class="btn-text">🔤 Translate Text</span>
+        <span class="btn-text" data-i18n="translateText"></span>
       </button>
       <div id="translationResult" class="translation-result hidden"></div>
     </div>
 
     <!-- Translate Button -->
     <button id="translateBtn" class="btn-primary">
-      <span class="btn-text">Translate Page</span>
+      <span class="btn-text" data-i18n="translatePage"></span>
     </button>
 
     <!-- Restore Original Button -->
     <button id="restoreBtn" class="btn-restore">
-      <span class="btn-text">↺ Restore Original</span>
+      <span class="btn-text" data-i18n="restoreOriginal"></span>
     </button>
 
     <!-- Status Message -->
@@ -69,13 +69,22 @@
   <div id="settingsModal" class="modal hidden">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title">⚙️ Settings</h2>
+        <h2 class="modal-title" data-i18n="settingsTitle"></h2>
         <button id="closeSettingsBtn" class="close-btn">&times;</button>
       </div>
       <div class="modal-body">
+        <!-- Interface Language Selection -->
+        <div class="section">
+          <label for="interfaceLang" data-i18n="interfaceLanguage"></label>
+          <select id="interfaceLang" class="select">
+            <option value="en" data-i18n="languageEnglishFull"></option>
+            <option value="vi" data-i18n="languageVietnameseFull"></option>
+          </select>
+        </div>
+
         <!-- AI Service Selection -->
         <div class="section">
-          <label for="aiService">AI Service:</label>
+          <label for="aiService" data-i18n="aiService"></label>
           <select id="aiService" class="select">
             <option value="gemini">Google Gemini</option>
             <option value="perplexity">Perplexity AI</option>
@@ -86,62 +95,62 @@
 
         <!-- Gemini API Key Section -->
         <div class="section" id="geminiSection">
-          <label for="apiKey">Gemini API Key:</label>
+          <label for="apiKey" data-i18n="geminiApiKey"></label>
           <div class="input-group">
             <input 
               type="password" 
               id="apiKey" 
-              placeholder="Enter your Gemini API key"
+              data-i18n-placeholder="apiKeyPlaceholderGemini"
               autocomplete="off"
             />
-            <button id="saveApiKey" class="btn-secondary">Save</button>
+            <button id="saveApiKey" class="btn-secondary" data-i18n="save"></button>
           </div>
-          <p class="hint">Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+          <p class="hint"><span data-i18n="getApiKeyGemini"></span> <a href="https://makersuite.google.com/app/apikey" target="_blank" data-i18n="googleAIStudio"></a></p>
         </div>
 
         <!-- Perplexity API Key Section -->
         <div class="section" id="perplexitySection" style="display: none;">
-          <label for="perplexityApiKey">Perplexity API Key:</label>
+          <label for="perplexityApiKey" data-i18n="perplexityApiKey"></label>
           <div class="input-group">
             <input 
               type="password" 
               id="perplexityApiKey" 
-              placeholder="Enter your Perplexity API key"
+              data-i18n-placeholder="apiKeyPlaceholderPerplexity"
               autocomplete="off"
             />
-            <button id="savePerplexityApiKey" class="btn-secondary">Save</button>
+            <button id="savePerplexityApiKey" class="btn-secondary" data-i18n="save"></button>
           </div>
-          <p class="hint">Get your API key from <a href="https://www.perplexity.ai/settings/api" target="_blank">Perplexity Settings</a></p>
+          <p class="hint"><span data-i18n="getApiKeyPerplexity"></span> <a href="https://www.perplexity.ai/settings/api" target="_blank" data-i18n="perplexitySettings"></a></p>
         </div>
 
         <!-- ChatGPT API Key Section -->
         <div class="section" id="chatgptSection" style="display: none;">
-          <label for="chatgptApiKey">ChatGPT API Key:</label>
+          <label for="chatgptApiKey" data-i18n="chatgptApiKey"></label>
           <div class="input-group">
             <input 
               type="password" 
               id="chatgptApiKey" 
-              placeholder="Enter your OpenAI API key"
+              data-i18n-placeholder="apiKeyPlaceholderChatGPT"
               autocomplete="off"
             />
-            <button id="saveChatgptApiKey" class="btn-secondary">Save</button>
+            <button id="saveChatgptApiKey" class="btn-secondary" data-i18n="save"></button>
           </div>
-          <p class="hint">Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></p>
+          <p class="hint"><span data-i18n="getApiKeyChatGPT"></span> <a href="https://platform.openai.com/api-keys" target="_blank" data-i18n="openAIPlatform"></a></p>
         </div>
 
         <!-- Grok API Key Section -->
         <div class="section" id="grokSection" style="display: none;">
-          <label for="grokApiKey">Grok API Key:</label>
+          <label for="grokApiKey" data-i18n="grokApiKey"></label>
           <div class="input-group">
             <input 
               type="password" 
               id="grokApiKey" 
-              placeholder="Enter your xAI API key"
+              data-i18n-placeholder="apiKeyPlaceholderGrok"
               autocomplete="off"
             />
-            <button id="saveGrokApiKey" class="btn-secondary">Save</button>
+            <button id="saveGrokApiKey" class="btn-secondary" data-i18n="save"></button>
           </div>
-          <p class="hint">Get your API key from <a href="https://console.x.ai/" target="_blank">xAI Console</a></p>
+          <p class="hint"><span data-i18n="getApiKeyGrok"></span> <a href="https://console.x.ai/" target="_blank" data-i18n="xAIConsole"></a></p>
         </div>
       </div>
     </div>
@@ -150,9 +159,10 @@
   <!-- Loading Overlay -->
   <div id="loadingOverlay" class="loading-overlay hidden">
     <div class="spinner"></div>
-    <p class="loading-text">Translating...</p>
+    <p class="loading-text" data-i18n="translating"></p>
   </div>
 
+  <script src="i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

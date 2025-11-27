@@ -2,6 +2,7 @@
 const settingsBtn = document.getElementById('settingsBtn');
 const settingsModal = document.getElementById('settingsModal');
 const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+const interfaceLangSelect = document.getElementById('interfaceLang');
 const aiServiceSelect = document.getElementById('aiService');
 const geminiSection = document.getElementById('geminiSection');
 const perplexitySection = document.getElementById('perplexitySection');
@@ -20,6 +21,30 @@ const showBelowModeCheckbox = document.getElementById('showBelowMode');
 const translateBtn = document.getElementById('translateBtn');
 const statusDiv = document.getElementById('status');
 const loadingOverlay = document.getElementById('loadingOverlay');
+
+// Note: i18n functions (getMessage, initI18n, setLocale) are loaded from i18n.js
+
+// Initialize i18n when DOM is ready
+function initializeI18n() {
+  initI18n(() => {
+    // Load saved interface language
+    chrome.storage.local.get(['interfaceLanguage'], (result) => {
+      const lang = result.interfaceLanguage || 'en';
+      interfaceLangSelect.value = lang;
+    });
+    
+    // Update UI with current language
+    updateUILanguage();
+  });
+}
+
+// Interface Language selection handler
+interfaceLangSelect.addEventListener('change', () => {
+  const selectedLang = interfaceLangSelect.value;
+  setLocale(selectedLang, () => {
+    showStatus(getMessage('successApiKeySaved'), 'success');
+  });
+});
 
 // Settings Modal Functions
 function openSettingsModal() {
@@ -72,6 +97,9 @@ chrome.storage.local.get(['aiService', 'geminiApiKey', 'perplexityApiKey', 'chat
   if (result.showBelowMode !== undefined) {
     showBelowModeCheckbox.checked = result.showBelowMode;
   }
+  
+  // Initialize i18n after loading settings
+  initializeI18n();
 });
 
 // Toggle API key sections based on selected service
@@ -104,12 +132,12 @@ saveApiKeyBtn.addEventListener('click', () => {
   const apiKey = apiKeyInput.value.trim();
   
   if (!apiKey) {
-    showStatus('Please enter an API key', 'error');
+    showStatus(getMessage('errorEnterApiKey'), 'error');
     return;
   }
   
   chrome.storage.local.set({ geminiApiKey: apiKey }, () => {
-    showStatus('API key saved successfully!', 'success');
+    showStatus(getMessage('successApiKeySaved'), 'success');
   });
 });
 
@@ -118,12 +146,12 @@ savePerplexityApiKeyBtn.addEventListener('click', () => {
   const apiKey = perplexityApiKeyInput.value.trim();
   
   if (!apiKey) {
-    showStatus('Please enter an API key', 'error');
+    showStatus(getMessage('errorEnterApiKey'), 'error');
     return;
   }
   
   chrome.storage.local.set({ perplexityApiKey: apiKey }, () => {
-    showStatus('Perplexity API key saved successfully!', 'success');
+    showStatus(getMessage('successPerplexityApiKeySaved'), 'success');
   });
 });
 
@@ -132,12 +160,12 @@ saveChatgptApiKeyBtn.addEventListener('click', () => {
   const apiKey = chatgptApiKeyInput.value.trim();
   
   if (!apiKey) {
-    showStatus('Please enter an API key', 'error');
+    showStatus(getMessage('errorEnterApiKey'), 'error');
     return;
   }
   
   chrome.storage.local.set({ chatgptApiKey: apiKey }, () => {
-    showStatus('ChatGPT API key saved successfully!', 'success');
+    showStatus(getMessage('successChatGPTApiKeySaved'), 'success');
   });
 });
 
@@ -146,12 +174,12 @@ saveGrokApiKeyBtn.addEventListener('click', () => {
   const apiKey = grokApiKeyInput.value.trim();
   
   if (!apiKey) {
-    showStatus('Please enter an API key', 'error');
+    showStatus(getMessage('errorEnterApiKey'), 'error');
     return;
   }
   
   chrome.storage.local.set({ grokApiKey: apiKey }, () => {
-    showStatus('Grok API key saved successfully!', 'success');
+    showStatus(getMessage('successGrokApiKeySaved'), 'success');
   });
 });
 
@@ -184,7 +212,7 @@ translateBtn.addEventListener('click', async () => {
   }
   
   if (!apiKey) {
-    showStatus('Please enter and save your API key first', 'error');
+    showStatus(getMessage('errorEnterAndSaveApiKey'), 'error');
     return;
   }
   
@@ -197,7 +225,7 @@ translateBtn.addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
     if (!tab || !tab.id) {
-      throw new Error('No active tab found');
+      throw new Error(getMessage('errorNoActiveTab'));
     }
     
     // Inject content script and execute translation
@@ -225,9 +253,9 @@ translateBtn.addEventListener('click', async () => {
         }
         
         if (response && response.success) {
-          showStatus('Translation completed successfully!', 'success');
+          showStatus(getMessage('successTranslationCompleted'), 'success');
         } else {
-          showStatus('Translation failed: ' + (response?.error || 'Unknown error'), 'error');
+          showStatus(getMessage('errorTranslationFailed') + ' ' + (response?.error || 'Unknown error'), 'error');
         }
       }
     );
@@ -266,9 +294,9 @@ restoreBtn.addEventListener('click', async () => {
         }
         
         if (response && response.success) {
-          showStatus('Original text restored!', 'success');
+          showStatus(getMessage('successOriginalRestored'), 'success');
         } else {
-          showStatus('Restore failed: ' + (response?.error || 'Unknown error'), 'error');
+          showStatus(getMessage('errorRestoreFailed') + ' ' + (response?.error || 'Unknown error'), 'error');
         }
       }
     );
@@ -288,7 +316,7 @@ translateCustomBtn.addEventListener('click', async () => {
   const customText = customTextInput.value.trim();
   
   if (!customText) {
-    showStatus('Please enter text to translate', 'error');
+    showStatus(getMessage('errorEnterText'), 'error');
     return;
   }
   
@@ -309,7 +337,7 @@ translateCustomBtn.addEventListener('click', async () => {
   }
   
   if (!apiKey) {
-    showStatus('Please enter and save your API key first', 'error');
+    showStatus(getMessage('errorEnterAndSaveApiKey'), 'error');
     return;
   }
   
@@ -335,10 +363,10 @@ translateCustomBtn.addEventListener('click', async () => {
     // Show result
     translationResult.textContent = translatedText;
     translationResult.classList.remove('hidden');
-    showStatus('Translation completed!', 'success');
+    showStatus(getMessage('successCustomTranslationCompleted'), 'success');
     
   } catch (error) {
-    showStatus('Translation failed: ' + error.message, 'error');
+    showStatus(getMessage('errorTranslationFailed') + ' ' + error.message, 'error');
   } finally {
     showLoading(false);
     translateCustomBtn.disabled = false;

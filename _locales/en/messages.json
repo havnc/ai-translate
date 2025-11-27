@@ -1,0 +1,210 @@
+{
+  "extName": {
+    "message": "AI Webpage Translator",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Translate webpages using AI API",
+    "description": "Extension description"
+  },
+  "appTitle": {
+    "message": "🌐 AI Translator",
+    "description": "Main title in popup"
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "Settings button title"
+  },
+  "settingsTitle": {
+    "message": "⚙️ Settings",
+    "description": "Settings modal title"
+  },
+  "targetLanguage": {
+    "message": "Target Language:",
+    "description": "Target language label"
+  },
+  "languageEnglish": {
+    "message": "English",
+    "description": "English language option"
+  },
+  "languageJapanese": {
+    "message": "Japanese",
+    "description": "Japanese language option"
+  },
+  "languageVietnamese": {
+    "message": "Vietnamese",
+    "description": "Vietnamese language option"
+  },
+  "showBelowMode": {
+    "message": "Show translation below original text",
+    "description": "Show below mode checkbox label"
+  },
+  "showBelowModeHint": {
+    "message": "Original text will remain, translation appears underneath",
+    "description": "Show below mode hint"
+  },
+  "customTextTranslation": {
+    "message": "Custom Text Translation:",
+    "description": "Custom text translation label"
+  },
+  "customTextPlaceholder": {
+    "message": "Enter text to translate...",
+    "description": "Custom text input placeholder"
+  },
+  "customTextHint": {
+    "message": "Enter your own text to translate directly in the popup",
+    "description": "Custom text translation hint"
+  },
+  "translateText": {
+    "message": "🔤 Translate Text",
+    "description": "Translate custom text button"
+  },
+  "translatePage": {
+    "message": "Translate Page",
+    "description": "Translate page button"
+  },
+  "restoreOriginal": {
+    "message": "↺ Restore Original",
+    "description": "Restore original button"
+  },
+  "aiService": {
+    "message": "AI Service:",
+    "description": "AI service label"
+  },
+  "geminiApiKey": {
+    "message": "Gemini API Key:",
+    "description": "Gemini API key label"
+  },
+  "perplexityApiKey": {
+    "message": "Perplexity API Key:",
+    "description": "Perplexity API key label"
+  },
+  "chatgptApiKey": {
+    "message": "ChatGPT API Key:",
+    "description": "ChatGPT API key label"
+  },
+  "grokApiKey": {
+    "message": "Grok API Key:",
+    "description": "Grok API key label"
+  },
+  "apiKeyPlaceholderGemini": {
+    "message": "Enter your Gemini API key",
+    "description": "Gemini API key placeholder"
+  },
+  "apiKeyPlaceholderPerplexity": {
+    "message": "Enter your Perplexity API key",
+    "description": "Perplexity API key placeholder"
+  },
+  "apiKeyPlaceholderChatGPT": {
+    "message": "Enter your OpenAI API key",
+    "description": "ChatGPT API key placeholder"
+  },
+  "apiKeyPlaceholderGrok": {
+    "message": "Enter your xAI API key",
+    "description": "Grok API key placeholder"
+  },
+  "save": {
+    "message": "Save",
+    "description": "Save button"
+  },
+  "getApiKeyGemini": {
+    "message": "Get your API key from",
+    "description": "Get API key hint prefix for Gemini"
+  },
+  "getApiKeyPerplexity": {
+    "message": "Get your API key from",
+    "description": "Get API key hint prefix for Perplexity"
+  },
+  "getApiKeyChatGPT": {
+    "message": "Get your API key from",
+    "description": "Get API key hint prefix for ChatGPT"
+  },
+  "getApiKeyGrok": {
+    "message": "Get your API key from",
+    "description": "Get API key hint prefix for Grok"
+  },
+  "googleAIStudio": {
+    "message": "Google AI Studio",
+    "description": "Google AI Studio link text"
+  },
+  "perplexitySettings": {
+    "message": "Perplexity Settings",
+    "description": "Perplexity Settings link text"
+  },
+  "openAIPlatform": {
+    "message": "OpenAI Platform",
+    "description": "OpenAI Platform link text"
+  },
+  "xAIConsole": {
+    "message": "xAI Console",
+    "description": "xAI Console link text"
+  },
+  "translating": {
+    "message": "Translating...",
+    "description": "Loading text while translating"
+  },
+  "errorEnterApiKey": {
+    "message": "Please enter an API key",
+    "description": "Error message when API key is empty"
+  },
+  "successApiKeySaved": {
+    "message": "API key saved successfully!",
+    "description": "Success message when API key is saved"
+  },
+  "successPerplexityApiKeySaved": {
+    "message": "Perplexity API key saved successfully!",
+    "description": "Success message when Perplexity API key is saved"
+  },
+  "successChatGPTApiKeySaved": {
+    "message": "ChatGPT API key saved successfully!",
+    "description": "Success message when ChatGPT API key is saved"
+  },
+  "successGrokApiKeySaved": {
+    "message": "Grok API key saved successfully!",
+    "description": "Success message when Grok API key is saved"
+  },
+  "errorEnterAndSaveApiKey": {
+    "message": "Please enter and save your API key first",
+    "description": "Error message when API key is not saved"
+  },
+  "errorNoActiveTab": {
+    "message": "No active tab found",
+    "description": "Error message when no active tab"
+  },
+  "successTranslationCompleted": {
+    "message": "Translation completed successfully!",
+    "description": "Success message when translation is completed"
+  },
+  "errorTranslationFailed": {
+    "message": "Translation failed:",
+    "description": "Error message prefix when translation fails"
+  },
+  "successOriginalRestored": {
+    "message": "Original text restored!",
+    "description": "Success message when original is restored"
+  },
+  "errorRestoreFailed": {
+    "message": "Restore failed:",
+    "description": "Error message prefix when restore fails"
+  },
+  "errorEnterText": {
+    "message": "Please enter text to translate",
+    "description": "Error message when custom text is empty"
+  },
+  "successCustomTranslationCompleted": {
+    "message": "Translation completed!",
+    "description": "Success message when custom text translation is completed"
+  },
+  "interfaceLanguage": {
+    "message": "Interface Language:",
+    "description": "Interface language label"
+  },
+  "languageEnglishFull": {
+    "message": "English",
+    "description": "English language full name"
+  },
+  "languageVietnameseFull": {
+    "message": "Tiếng Việt",
+    "description": "Vietnamese language full name"
+  }
+}

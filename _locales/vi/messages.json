@@ -1,0 +1,210 @@
+{
+  "extName": {
+    "message": "Dịch Trang Web AI",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Dịch trang web sử dụng AI API",
+    "description": "Extension description"
+  },
+  "appTitle": {
+    "message": "🌐 Phiên Dịch AI",
+    "description": "Main title in popup"
+  },
+  "settings": {
+    "message": "Cài đặt",
+    "description": "Settings button title"
+  },
+  "settingsTitle": {
+    "message": "⚙️ Cài Đặt",
+    "description": "Settings modal title"
+  },
+  "targetLanguage": {
+    "message": "Ngôn ngữ đích:",
+    "description": "Target language label"
+  },
+  "languageEnglish": {
+    "message": "Tiếng Anh",
+    "description": "English language option"
+  },
+  "languageJapanese": {
+    "message": "Tiếng Nhật",
+    "description": "Japanese language option"
+  },
+  "languageVietnamese": {
+    "message": "Tiếng Việt",
+    "description": "Vietnamese language option"
+  },
+  "showBelowMode": {
+    "message": "Hiển thị bản dịch bên dưới văn bản gốc",
+    "description": "Show below mode checkbox label"
+  },
+  "showBelowModeHint": {
+    "message": "Văn bản gốc sẽ được giữ nguyên, bản dịch xuất hiện bên dưới",
+    "description": "Show below mode hint"
+  },
+  "customTextTranslation": {
+    "message": "Dịch Văn Bản Tùy Chỉnh:",
+    "description": "Custom text translation label"
+  },
+  "customTextPlaceholder": {
+    "message": "Nhập văn bản cần dịch...",
+    "description": "Custom text input placeholder"
+  },
+  "customTextHint": {
+    "message": "Nhập văn bản của bạn để dịch trực tiếp trong popup",
+    "description": "Custom text translation hint"
+  },
+  "translateText": {
+    "message": "🔤 Dịch Văn Bản",
+    "description": "Translate custom text button"
+  },
+  "translatePage": {
+    "message": "Dịch Trang",
+    "description": "Translate page button"
+  },
+  "restoreOriginal": {
+    "message": "↺ Khôi Phục Gốc",
+    "description": "Restore original button"
+  },
+  "aiService": {
+    "message": "Dịch vụ AI:",
+    "description": "AI service label"
+  },
+  "geminiApiKey": {
+    "message": "Khóa API Gemini:",
+    "description": "Gemini API key label"
+  },
+  "perplexityApiKey": {
+    "message": "Khóa API Perplexity:",
+    "description": "Perplexity API key label"
+  },
+  "chatgptApiKey": {
+    "message": "Khóa API ChatGPT:",
+    "description": "ChatGPT API key label"
+  },
+  "grokApiKey": {
+    "message": "Khóa API Grok:",
+    "description": "Grok API key label"
+  },
+  "apiKeyPlaceholderGemini": {
+    "message": "Nhập khóa API Gemini của bạn",
+    "description": "Gemini API key placeholder"
+  },
+  "apiKeyPlaceholderPerplexity": {
+    "message": "Nhập khóa API Perplexity của bạn",
+    "description": "Perplexity API key placeholder"
+  },
+  "apiKeyPlaceholderChatGPT": {
+    "message": "Nhập khóa API OpenAI của bạn",
+    "description": "ChatGPT API key placeholder"
+  },
+  "apiKeyPlaceholderGrok": {
+    "message": "Nhập khóa API xAI của bạn",
+    "description": "Grok API key placeholder"
+  },
+  "save": {
+    "message": "Lưu",
+    "description": "Save button"
+  },
+  "getApiKeyGemini": {
+    "message": "Lấy khóa API từ",
+    "description": "Get API key hint prefix for Gemini"
+  },
+  "getApiKeyPerplexity": {
+    "message": "Lấy khóa API từ",
+    "description": "Get API key hint prefix for Perplexity"
+  },
+  "getApiKeyChatGPT": {
+    "message": "Lấy khóa API từ",
+    "description": "Get API key hint prefix for ChatGPT"
+  },
+  "getApiKeyGrok": {
+    "message": "Lấy khóa API từ",
+    "description": "Get API key hint prefix for Grok"
+  },
+  "googleAIStudio": {
+    "message": "Google AI Studio",
+    "description": "Google AI Studio link text"
+  },
+  "perplexitySettings": {
+    "message": "Cài Đặt Perplexity",
+    "description": "Perplexity Settings link text"
+  },
+  "openAIPlatform": {
+    "message": "Nền Tảng OpenAI",
+    "description": "OpenAI Platform link text"
+  },
+  "xAIConsole": {
+    "message": "Bảng Điều Khiển xAI",
+    "description": "xAI Console link text"
+  },
+  "translating": {
+    "message": "Đang dịch...",
+    "description": "Loading text while translating"
+  },
+  "errorEnterApiKey": {
+    "message": "Vui lòng nhập khóa API",
+    "description": "Error message when API key is empty"
+  },
+  "successApiKeySaved": {
+    "message": "Đã lưu khóa API thành công!",
+    "description": "Success message when API key is saved"
+  },
+  "successPerplexityApiKeySaved": {
+    "message": "Đã lưu khóa API Perplexity thành công!",
+    "description": "Success message when Perplexity API key is saved"
+  },
+  "successChatGPTApiKeySaved": {
+    "message": "Đã lưu khóa API ChatGPT thành công!",
+    "description": "Success message when ChatGPT API key is saved"
+  },
+  "successGrokApiKeySaved": {
+    "message": "Đã lưu khóa API Grok thành công!",
+    "description": "Success message when Grok API key is saved"
+  },
+  "errorEnterAndSaveApiKey": {
+    "message": "Vui lòng nhập và lưu khóa API của bạn trước",
+    "description": "Error message when API key is not saved"
+  },
+  "errorNoActiveTab": {
+    "message": "Không tìm thấy tab đang hoạt động",
+    "description": "Error message when no active tab"
+  },
+  "successTranslationCompleted": {
+    "message": "Dịch hoàn tất thành công!",
+    "description": "Success message when translation is completed"
+  },
+  "errorTranslationFailed": {
+    "message": "Dịch thất bại:",
+    "description": "Error message prefix when translation fails"
+  },
+  "successOriginalRestored": {
+    "message": "Đã khôi phục văn bản gốc!",
+    "description": "Success message when original is restored"
+  },
+  "errorRestoreFailed": {
+    "message": "Khôi phục thất bại:",
+    "description": "Error message prefix when restore fails"
+  },
+  "errorEnterText": {
+    "message": "Vui lòng nhập văn bản cần dịch",
+    "description": "Error message when custom text is empty"
+  },
+  "successCustomTranslationCompleted": {
+    "message": "Dịch hoàn tất!",
+    "description": "Success message when custom text translation is completed"
+  },
+  "interfaceLanguage": {
+    "message": "Ngôn ngữ giao diện:",
+    "description": "Interface language label"
+  },
+  "languageEnglishFull": {
+    "message": "English",
+    "description": "English language full name"
+  },
+  "languageVietnameseFull": {
+    "message": "Tiếng Việt",
+    "description": "Vietnamese language full name"
+  }
+}
