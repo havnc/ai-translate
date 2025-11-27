@@ -1,4 +1,7 @@
 // DOM Elements
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsModal = document.getElementById('settingsModal');
+const closeSettingsBtn = document.getElementById('closeSettingsBtn');
 const aiServiceSelect = document.getElementById('aiService');
 const geminiSection = document.getElementById('geminiSection');
 const perplexitySection = document.getElementById('perplexitySection');
@@ -11,6 +14,28 @@ const showBelowModeCheckbox = document.getElementById('showBelowMode');
 const translateBtn = document.getElementById('translateBtn');
 const statusDiv = document.getElementById('status');
 const loadingOverlay = document.getElementById('loadingOverlay');
+
+// Settings Modal Functions
+function openSettingsModal() {
+  settingsModal.classList.remove('hidden');
+}
+
+function closeSettingsModal() {
+  settingsModal.classList.add('hidden');
+}
+
+// Settings Button Click
+settingsBtn.addEventListener('click', openSettingsModal);
+
+// Close Settings Button Click
+closeSettingsBtn.addEventListener('click', closeSettingsModal);
+
+// Close modal when clicking outside of modal content
+settingsModal.addEventListener('click', (e) => {
+  if (e.target === settingsModal) {
+    closeSettingsModal();
+  }
+});
 
 
 // Load saved settings on popup open
@@ -202,6 +227,148 @@ restoreBtn.addEventListener('click', async () => {
     showStatus('Error: ' + error.message, 'error');
   }
 });
+
+// Custom Text Translation Button Click
+const customTextInput = document.getElementById('customText');
+const translateCustomBtn = document.getElementById('translateCustomBtn');
+const translationResult = document.getElementById('translationResult');
+
+translateCustomBtn.addEventListener('click', async () => {
+  const customText = customTextInput.value.trim();
+  
+  if (!customText) {
+    showStatus('Please enter text to translate', 'error');
+    return;
+  }
+  
+  // Get selected AI service
+  const aiService = aiServiceSelect.value;
+  const targetLang = targetLangSelect.value;
+  
+  // Get appropriate API key based on service
+  let apiKey;
+  if (aiService === 'gemini') {
+    apiKey = apiKeyInput.value.trim();
+  } else if (aiService === 'perplexity') {
+    apiKey = perplexityApiKeyInput.value.trim();
+  }
+  
+  if (!apiKey) {
+    showStatus('Please enter and save your API key first', 'error');
+    return;
+  }
+  
+  // Show loading
+  showLoading(true);
+  translateCustomBtn.disabled = true;
+  translationResult.classList.add('hidden');
+  hideStatus();
+  
+  try {
+    let translatedText;
+    
+    if (aiService === 'perplexity') {
+      translatedText = await translateWithPerplexity(customText, apiKey, targetLang);
+    } else {
+      translatedText = await translateWithGemini(customText, apiKey, targetLang);
+    }
+    
+    // Show result
+    translationResult.textContent = translatedText;
+    translationResult.classList.remove('hidden');
+    showStatus('Translation completed!', 'success');
+    
+  } catch (error) {
+    showStatus('Translation failed: ' + error.message, 'error');
+  } finally {
+    showLoading(false);
+    translateCustomBtn.disabled = false;
+  }
+});
+
+// Translate using Gemini API
+async function translateWithGemini(text, apiKey, targetLanguage) {
+  const GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+  const systemPrompt = `You are a professional translator. Translate the following text into ${targetLanguage}. Only return the translated text, no explanations.`;
+  
+  const requestBody = {
+    contents: [{
+      parts: [{
+        text: systemPrompt + '\n\nText to translate:\n' + text
+      }]
+    }],
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 2048,
+    }
+  };
+  
+  const response = await fetch(GEMINI_API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-goog-api-key': apiKey
+    },
+    body: JSON.stringify(requestBody)
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || `API error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  
+  if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
+    throw new Error('Invalid API response format');
+  }
+  
+  return data.candidates[0].content.parts[0].text.trim();
+}
+
+// Translate using Perplexity API
+async function translateWithPerplexity(text, apiKey, targetLanguage) {
+  const PERPLEXITY_API_ENDPOINT = 'https://api.perplexity.ai/chat/completions';
+  const systemPrompt = `You are a professional translator. Translate the following text into ${targetLanguage}. Only return the translated text, no explanations.`;
+  
+  const requestBody = {
+    model: 'sonar',
+    messages: [
+      {
+        role: 'system',
+        content: systemPrompt
+      },
+      {
+        role: 'user',
+        content: 'Text to translate:\n' + text
+      }
+    ],
+    temperature: 0.3,
+    max_tokens: 2048
+  };
+  
+  const response = await fetch(PERPLEXITY_API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify(requestBody)
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || errorData.detail || `API error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  
+  if (!data.choices || !data.choices[0]?.message?.content) {
+    throw new Error('Invalid Perplexity API response format');
+  }
+  
+  return data.choices[0].message.content.trim();
+}
 
 // Helper Functions
 function showStatus(message, type) {

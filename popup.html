@@ -8,46 +8,14 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">🌐 AI Translator</h1>
+    <div class="header">
+      <h1 class="title">🌐 AI Translator</h1>
+      <button id="settingsBtn" class="settings-btn" title="Settings">
+        ⚙️
+      </button>
+    </div>
     
-    <!-- AI Service Selection -->
-    <div class="section">
-      <label for="aiService">AI Service:</label>
-      <select id="aiService" class="select">
-        <option value="gemini">Google Gemini</option>
-        <option value="perplexity">Perplexity AI</option>
-      </select>
-    </div>
 
-    <!-- Gemini API Key Section -->
-    <div class="section" id="geminiSection">
-      <label for="apiKey">Gemini API Key:</label>
-      <div class="input-group">
-        <input 
-          type="password" 
-          id="apiKey" 
-          placeholder="Enter your Gemini API key"
-          autocomplete="off"
-        />
-        <button id="saveApiKey" class="btn-secondary">Save</button>
-      </div>
-      <p class="hint">Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
-    </div>
-
-    <!-- Perplexity API Key Section -->
-    <div class="section" id="perplexitySection" style="display: none;">
-      <label for="perplexityApiKey">Perplexity API Key:</label>
-      <div class="input-group">
-        <input 
-          type="password" 
-          id="perplexityApiKey" 
-          placeholder="Enter your Perplexity API key"
-          autocomplete="off"
-        />
-        <button id="savePerplexityApiKey" class="btn-secondary">Save</button>
-      </div>
-      <p class="hint">Get your API key from <a href="https://www.perplexity.ai/settings/api" target="_blank">Perplexity Settings</a></p>
-    </div>
 
     <!-- Language Selection -->
     <div class="section">
@@ -68,6 +36,21 @@
       <p class="hint">Original text will remain, translation appears underneath</p>
     </div>
 
+    <!-- Custom Text Translation -->
+    <div class="section">
+      <label for="customText">Custom Text Translation:</label>
+      <textarea 
+        id="customText" 
+        placeholder="Enter text to translate..."
+        rows="4"
+      ></textarea>
+      <p class="hint">Enter your own text to translate directly in the popup</p>
+      <button id="translateCustomBtn" class="btn-custom">
+        <span class="btn-text">🔤 Translate Text</span>
+      </button>
+      <div id="translationResult" class="translation-result hidden"></div>
+    </div>
+
     <!-- Translate Button -->
     <button id="translateBtn" class="btn-primary">
       <span class="btn-text">Translate Page</span>
@@ -80,6 +63,56 @@
 
     <!-- Status Message -->
     <div id="status" class="status hidden"></div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">⚙️ Settings</h2>
+        <button id="closeSettingsBtn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- AI Service Selection -->
+        <div class="section">
+          <label for="aiService">AI Service:</label>
+          <select id="aiService" class="select">
+            <option value="gemini">Google Gemini</option>
+            <option value="perplexity">Perplexity AI</option>
+          </select>
+        </div>
+
+        <!-- Gemini API Key Section -->
+        <div class="section" id="geminiSection">
+          <label for="apiKey">Gemini API Key:</label>
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="apiKey" 
+              placeholder="Enter your Gemini API key"
+              autocomplete="off"
+            />
+            <button id="saveApiKey" class="btn-secondary">Save</button>
+          </div>
+          <p class="hint">Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+        </div>
+
+        <!-- Perplexity API Key Section -->
+        <div class="section" id="perplexitySection" style="display: none;">
+          <label for="perplexityApiKey">Perplexity API Key:</label>
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="perplexityApiKey" 
+              placeholder="Enter your Perplexity API key"
+              autocomplete="off"
+            />
+            <button id="savePerplexityApiKey" class="btn-secondary">Save</button>
+          </div>
+          <p class="hint">Get your API key from <a href="https://www.perplexity.ai/settings/api" target="_blank">Perplexity Settings</a></p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Loading Overlay -->

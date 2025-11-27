@@ -2,7 +2,7 @@
 // This script runs in the context of web pages
 
 // Configuration
-const GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+const GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 const PERPLEXITY_API_ENDPOINT = 'https://api.perplexity.ai/chat/completions';
 const MAX_CHUNK_SIZE = 2000; // Characters per API call
 const BATCH_SIZE = 5; // Number of concurrent API calls
