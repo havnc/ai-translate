@@ -4,6 +4,8 @@
 // Configuration
 const GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 const PERPLEXITY_API_ENDPOINT = 'https://api.perplexity.ai/chat/completions';
+const CHATGPT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+const GROK_API_ENDPOINT = 'https://api.x.ai/v1/chat/completions';
 const MAX_CHUNK_SIZE = 2000; // Characters per API call
 const BATCH_SIZE = 5; // Number of concurrent API calls
 
@@ -197,6 +199,10 @@ async function translateChunk(chunk, apiKey, targetLanguage, showBelowMode = fal
   
   if (aiService === 'perplexity') {
     translatedText = await translateWithPerplexity(chunk.text, apiKey, targetLanguage);
+  } else if (aiService === 'chatgpt') {
+    translatedText = await translateWithChatGPT(chunk.text, apiKey, targetLanguage);
+  } else if (aiService === 'grok') {
+    translatedText = await translateWithGrok(chunk.text, apiKey, targetLanguage);
   } else {
     translatedText = await translateWithGemini(chunk.text, apiKey, targetLanguage);
   }
@@ -337,12 +343,114 @@ async function translateWithPerplexity(text, apiKey, targetLanguage) {
   }
 }
 
+// Translate using ChatGPT API
+async function translateWithChatGPT(text, apiKey, targetLanguage) {
+  const systemPrompt = `You are a professional translator. Translate the following text into ${targetLanguage}. Only return the translated text, no explanations. Preserve line breaks and maintain the same number of lines as the input.`;
+  
+  const requestBody = {
+    model: 'gpt-4o-mini',
+    messages: [
+      {
+        role: 'system',
+        content: systemPrompt
+      },
+      {
+        role: 'user',
+        content: 'Text to translate:\n' + text
+      }
+    ],
+    temperature: 0.3,
+    max_tokens: 2048
+  };
+  
+  try {
+    const response = await fetch(CHATGPT_API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(requestBody)
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || `API error: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (!data.choices || !data.choices[0]?.message?.content) {
+      throw new Error('Invalid ChatGPT API response format');
+    }
+    
+    return data.choices[0].message.content.trim();
+    
+  } catch (error) {
+    console.error('ChatGPT translation error:', error);
+    throw error;
+  }
+}
+
+// Translate using Grok API
+async function translateWithGrok(text, apiKey, targetLanguage) {
+  const systemPrompt = `You are a professional translator. Translate the following text into ${targetLanguage}. Only return the translated text, no explanations. Preserve line breaks and maintain the same number of lines as the input.`;
+  
+  const requestBody = {
+    model: 'grok-beta',
+    messages: [
+      {
+        role: 'system',
+        content: systemPrompt
+      },
+      {
+        role: 'user',
+        content: 'Text to translate:\n' + text
+      }
+    ],
+    temperature: 0.3,
+    max_tokens: 2048
+  };
+  
+  try {
+    const response = await fetch(GROK_API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(requestBody)
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || `API error: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (!data.choices || !data.choices[0]?.message?.content) {
+      throw new Error('Invalid Grok API response format');
+    }
+    
+    return data.choices[0].message.content.trim();
+    
+  } catch (error) {
+    console.error('Grok translation error:', error);
+    throw error;
+  }
+}
+
 // ===== TEXT SELECTION TRANSLATION FEATURE =====
 
 // Translate selected text only
 async function handleSelectionTranslation(text, apiKey, targetLanguage, aiService = 'gemini') {
   if (aiService === 'perplexity') {
     return await translateWithPerplexity(text, apiKey, targetLanguage);
+  } else if (aiService === 'chatgpt') {
+    return await translateWithChatGPT(text, apiKey, targetLanguage);
+  } else if (aiService === 'grok') {
+    return await translateWithGrok(text, apiKey, targetLanguage);
   } else {
     return await translateWithGemini(text, apiKey, targetLanguage);
   }
@@ -475,7 +583,7 @@ async function handleIconClick(e) {
   const rangeToUse = selectionRange;
   
   // Get API key, target language, and AI service from storage
-  chrome.storage.local.get(['aiService', 'geminiApiKey', 'perplexityApiKey', 'targetLanguage'], async (result) => {
+  chrome.storage.local.get(['aiService', 'geminiApiKey', 'perplexityApiKey', 'chatgptApiKey', 'grokApiKey', 'targetLanguage'], async (result) => {
     const aiService = result.aiService || 'gemini';
     const targetLanguage = result.targetLanguage || 'Vietnamese';
     
@@ -485,6 +593,10 @@ async function handleIconClick(e) {
       apiKey = result.geminiApiKey;
     } else if (aiService === 'perplexity') {
       apiKey = result.perplexityApiKey;
+    } else if (aiService === 'chatgpt') {
+      apiKey = result.chatgptApiKey;
+    } else if (aiService === 'grok') {
+      apiKey = result.grokApiKey;
     }
     
     console.log('AI Service:', aiService, 'API Key present:', !!apiKey, 'Target lang:', targetLanguage);

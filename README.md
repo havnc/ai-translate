@@ -1,152 +1,80 @@
 # AI Webpage Translator - Chrome Extension
 
-A powerful Chrome Extension that translates webpages using AI (Google Gemini or Perplexity AI) while preserving the original page structure and styling.
+Translate webpages and text using AI (Google Gemini, Perplexity, ChatGPT, or Grok) while preserving page structure.
 
-## Features
+## ✨ Features
 
-✨ **Intelligent Translation**
-- Choose between Google Gemini AI or Perplexity AI for high-quality translations
-- Supports English, Japanese, and Vietnamese
-- Preserves page structure and styling using TreeWalker DOM manipulation
+- **4 AI Services**: Choose between Google Gemini, Perplexity AI, ChatGPT (OpenAI), or Grok (xAI)
+- **Full Page Translation**: Translates entire webpages while preserving structure and styling
+- **Text Selection**: Select and translate specific text with a floating popup
+- **Translation Modes**: Replace text or show translation below original
+- **3 Languages**: English, Japanese, and Vietnamese
+- **Secure**: API keys stored locally in your browser
 
-🎯 **Text Selection Translation** (NEW!)
-- Select any text on a webpage
-- A floating translate icon appears near your selection
-- Click the icon to instantly translate just the selected text
-- Results shown in a beautiful popup overlay
-
-🎨 **Modern UI**
-- Clean, intuitive popup interface
-- Gradient design with smooth animations
-- Real-time loading indicators
-
-🔒 **Secure**
-- API keys stored locally in browser
-- No data sent to third-party servers except your selected AI service API
-
-## Installation
+## 📦 Installation
 
 1. **Get an API Key** (choose one):
-   
-   **Option A: Google Gemini** (Recommended for most users)
-   - Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Create and copy your API key
-   
-   **Option B: Perplexity AI**
-   - Visit [Perplexity API Settings](https://www.perplexity.ai/settings/api)
-   - Sign up or log in
-   - Generate and copy your API key
+   - [Google Gemini](https://makersuite.google.com/app/apikey) (Recommended)
+   - [Perplexity AI](https://www.perplexity.ai/settings/api)
+   - [OpenAI ChatGPT](https://platform.openai.com/api-keys)
+   - [xAI Grok](https://console.x.ai/)
 
-2. **Load the Extension**
-   - Open Chrome and navigate to `chrome://extensions/`
-   - Enable "Developer mode" (top right toggle)
-   - Click "Load unpacked"
-   - Select the `trans-extension` folder
+2. **Load Extension**:
+   - Open Chrome → `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked" → Select the extension folder
 
-3. **Configure**
-   - Click the extension icon in your toolbar
-   - Select your preferred AI service (Gemini or Perplexity)
-   - Paste your API key and click "Save"
-   - Select your target language
-   - Click "Translate Page"
+3. **Configure**:
+   - Click extension icon → Settings ⚙️
+   - Select AI service
+   - Enter and save your API key
+   - Choose target language
 
-## Files Structure
-
-```
-trans-extension/
-├── manifest.json       # Extension configuration (Manifest V3)
-├── popup.html          # Popup UI
-├── popup.js            # Popup logic and messaging
-├── content.js          # Translation engine and DOM manipulation
-├── styles.css          # Popup styling
-├── icon16.png          # Extension icon (16x16)
-├── icon48.png          # Extension icon (48x48)
-├── icon128.png         # Extension icon (128x128)
-└── README.md           # This file
-```
-
-## How It Works
-
-### TreeWalker DOM Manipulation
-Instead of replacing the entire `innerHTML`, this extension uses `document.createTreeWalker` to:
-1. Traverse all visible text nodes in the webpage
-2. Filter out script, style, and hidden elements
-3. Extract text while preserving DOM structure
-4. Replace only text content using `nodeValue`
-
-This approach maintains:
-- Original HTML structure
-- CSS styling and layout
-- JavaScript functionality
-- Images and media
-
-### Chunked Translation
-To handle token limits:
-- Text nodes are grouped into chunks (~2000 characters)
-- Multiple chunks are processed in parallel batches
-- Each chunk maintains line-to-node mapping for accurate replacement
-
-### API Integration
-- Supports both Gemini and Perplexity REST APIs
-- Dynamic routing based on selected AI service
-- System prompt ensures translation-only responses
-- Temperature set to 0.3 for consistency
-- Error handling with user-friendly messages
-
-## Usage Tips
+## 🚀 Usage
 
 **Full Page Translation:**
-- **First Translation**: May take longer as it processes all text
-- **Large Pages**: Will be translated in chunks; be patient
-- **Dynamic Content**: Re-run translation after content loads
-- **API Costs**: Monitor your API usage (Google AI Studio for Gemini, Perplexity dashboard for Perplexity)
+- Click extension icon → "Translate Page"
+- Toggle "Show translation below" to keep original text visible
+- Click "Restore Original" to revert changes
 
 **Text Selection Translation:**
-- **Select Text**: Highlight any text on the page
-- **Click Icon**: A floating 🌐 icon appears near your selection
-- **View Translation**: Click the icon to see instant translation in a popup
-- **Quick & Easy**: Perfect for translating specific paragraphs or sentences
+- Select any text on a webpage
+- Click the 🌐 icon that appears
+- View instant translation in popup
 
-## Permissions Explained
+**Custom Text Translation:**
+- Open extension popup
+- Enter text in the text area
+- Click "Translate Text"
 
-- **activeTab**: Access current webpage content
-- **scripting**: Inject content script for translation
-- **storage**: Save API key locally
-- **host_permissions**: Call Gemini API endpoint
+## 🔧 How It Works
 
-## Troubleshooting
+- **TreeWalker DOM**: Preserves HTML structure by only replacing text nodes
+- **Chunked Processing**: Handles large pages by batching API calls
+- **Multi-AI Support**: Dynamic routing to your selected AI service
+- **Local Storage**: API keys never leave your browser
 
-**Translation doesn't start:**
+## 🛠️ Troubleshooting
+
+**Translation not working?**
 - Verify API key is saved
-- Check browser console for errors
-- Ensure the page has loaded completely
+- Check API quota/billing for your service
+- Ensure page is fully loaded
+- Try a different AI service
 
-**Partial translation:**
+**Partial translation?**
 - Page may have dynamic content
-- Try scrolling to load all content first
-- Some elements may be intentionally skipped (scripts, styles)
+- Scroll to load all content first
+- Some elements (scripts, styles) are intentionally skipped
 
-**API errors:**
-- Verify API key is valid for your selected AI service
-- Check API quota (Google AI Studio for Gemini, Perplexity dashboard for Perplexity)
-- Try switching to a different AI service if one is experiencing issues
-- Ensure internet connection is stable
-
-## Development
-
-Built with:
-- Manifest V3
-- Vanilla JavaScript (no frameworks)
-- Google Gemini AI API & Perplexity AI API
-- Modern CSS with gradients and animations
-
-## License
+## 📝 License
 
 Free to use and modify
 
-## Support
+## 🔗 Resources
 
-For issues or questions, check:
-- [Chrome Extension Documentation](https://developer.chrome.com/docs/extensions/)
-- [Gemini API Documentation](https://ai.google.dev/docs)
-- [Perplexity API Documentation](https://docs.perplexity.ai/)
+- [Chrome Extensions Docs](https://developer.chrome.com/docs/extensions/)
+- [Gemini API](https://ai.google.dev/docs)
+- [Perplexity API](https://docs.perplexity.ai/)
+- [OpenAI API](https://platform.openai.com/docs)
+- [xAI Grok API](https://docs.x.ai/)

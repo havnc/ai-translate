@@ -79,6 +79,8 @@
           <select id="aiService" class="select">
             <option value="gemini">Google Gemini</option>
             <option value="perplexity">Perplexity AI</option>
+            <option value="chatgpt">ChatGPT (OpenAI)</option>
+            <option value="grok">Grok (xAI)</option>
           </select>
         </div>
 
@@ -110,6 +112,36 @@
             <button id="savePerplexityApiKey" class="btn-secondary">Save</button>
           </div>
           <p class="hint">Get your API key from <a href="https://www.perplexity.ai/settings/api" target="_blank">Perplexity Settings</a></p>
+        </div>
+
+        <!-- ChatGPT API Key Section -->
+        <div class="section" id="chatgptSection" style="display: none;">
+          <label for="chatgptApiKey">ChatGPT API Key:</label>
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="chatgptApiKey" 
+              placeholder="Enter your OpenAI API key"
+              autocomplete="off"
+            />
+            <button id="saveChatgptApiKey" class="btn-secondary">Save</button>
+          </div>
+          <p class="hint">Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></p>
+        </div>
+
+        <!-- Grok API Key Section -->
+        <div class="section" id="grokSection" style="display: none;">
+          <label for="grokApiKey">Grok API Key:</label>
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="grokApiKey" 
+              placeholder="Enter your xAI API key"
+              autocomplete="off"
+            />
+            <button id="saveGrokApiKey" class="btn-secondary">Save</button>
+          </div>
+          <p class="hint">Get your API key from <a href="https://console.x.ai/" target="_blank">xAI Console</a></p>
         </div>
       </div>
     </div>

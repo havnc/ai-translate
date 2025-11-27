@@ -5,10 +5,16 @@ const closeSettingsBtn = document.getElementById('closeSettingsBtn');
 const aiServiceSelect = document.getElementById('aiService');
 const geminiSection = document.getElementById('geminiSection');
 const perplexitySection = document.getElementById('perplexitySection');
+const chatgptSection = document.getElementById('chatgptSection');
+const grokSection = document.getElementById('grokSection');
 const apiKeyInput = document.getElementById('apiKey');
 const saveApiKeyBtn = document.getElementById('saveApiKey');
 const perplexityApiKeyInput = document.getElementById('perplexityApiKey');
 const savePerplexityApiKeyBtn = document.getElementById('savePerplexityApiKey');
+const chatgptApiKeyInput = document.getElementById('chatgptApiKey');
+const saveChatgptApiKeyBtn = document.getElementById('saveChatgptApiKey');
+const grokApiKeyInput = document.getElementById('grokApiKey');
+const saveGrokApiKeyBtn = document.getElementById('saveGrokApiKey');
 const targetLangSelect = document.getElementById('targetLang');
 const showBelowModeCheckbox = document.getElementById('showBelowMode');
 const translateBtn = document.getElementById('translateBtn');
@@ -39,7 +45,7 @@ settingsModal.addEventListener('click', (e) => {
 
 
 // Load saved settings on popup open
-chrome.storage.local.get(['aiService', 'geminiApiKey', 'perplexityApiKey', 'targetLanguage', 'showBelowMode'], (result) => {
+chrome.storage.local.get(['aiService', 'geminiApiKey', 'perplexityApiKey', 'chatgptApiKey', 'grokApiKey', 'targetLanguage', 'showBelowMode'], (result) => {
   // Load AI service selection (default to gemini)
   const aiService = result.aiService || 'gemini';
   aiServiceSelect.value = aiService;
@@ -51,6 +57,12 @@ chrome.storage.local.get(['aiService', 'geminiApiKey', 'perplexityApiKey', 'targ
   }
   if (result.perplexityApiKey) {
     perplexityApiKeyInput.value = result.perplexityApiKey;
+  }
+  if (result.chatgptApiKey) {
+    chatgptApiKeyInput.value = result.chatgptApiKey;
+  }
+  if (result.grokApiKey) {
+    grokApiKeyInput.value = result.grokApiKey;
   }
   
   // Load other settings
@@ -64,12 +76,19 @@ chrome.storage.local.get(['aiService', 'geminiApiKey', 'perplexityApiKey', 'targ
 
 // Toggle API key sections based on selected service
 function toggleApiKeySections(service) {
+  geminiSection.style.display = 'none';
+  perplexitySection.style.display = 'none';
+  chatgptSection.style.display = 'none';
+  grokSection.style.display = 'none';
+  
   if (service === 'gemini') {
     geminiSection.style.display = 'block';
-    perplexitySection.style.display = 'none';
   } else if (service === 'perplexity') {
-    geminiSection.style.display = 'none';
     perplexitySection.style.display = 'block';
+  } else if (service === 'chatgpt') {
+    chatgptSection.style.display = 'block';
+  } else if (service === 'grok') {
+    grokSection.style.display = 'block';
   }
 }
 
@@ -108,6 +127,34 @@ savePerplexityApiKeyBtn.addEventListener('click', () => {
   });
 });
 
+// Save ChatGPT API Key
+saveChatgptApiKeyBtn.addEventListener('click', () => {
+  const apiKey = chatgptApiKeyInput.value.trim();
+  
+  if (!apiKey) {
+    showStatus('Please enter an API key', 'error');
+    return;
+  }
+  
+  chrome.storage.local.set({ chatgptApiKey: apiKey }, () => {
+    showStatus('ChatGPT API key saved successfully!', 'success');
+  });
+});
+
+// Save Grok API Key
+saveGrokApiKeyBtn.addEventListener('click', () => {
+  const apiKey = grokApiKeyInput.value.trim();
+  
+  if (!apiKey) {
+    showStatus('Please enter an API key', 'error');
+    return;
+  }
+  
+  chrome.storage.local.set({ grokApiKey: apiKey }, () => {
+    showStatus('Grok API key saved successfully!', 'success');
+  });
+});
+
 // Save language preference on change
 targetLangSelect.addEventListener('change', () => {
   chrome.storage.local.set({ targetLanguage: targetLangSelect.value });
@@ -130,6 +177,10 @@ translateBtn.addEventListener('click', async () => {
     apiKey = apiKeyInput.value.trim();
   } else if (aiService === 'perplexity') {
     apiKey = perplexityApiKeyInput.value.trim();
+  } else if (aiService === 'chatgpt') {
+    apiKey = chatgptApiKeyInput.value.trim();
+  } else if (aiService === 'grok') {
+    apiKey = grokApiKeyInput.value.trim();
   }
   
   if (!apiKey) {
@@ -251,6 +302,10 @@ translateCustomBtn.addEventListener('click', async () => {
     apiKey = apiKeyInput.value.trim();
   } else if (aiService === 'perplexity') {
     apiKey = perplexityApiKeyInput.value.trim();
+  } else if (aiService === 'chatgpt') {
+    apiKey = chatgptApiKeyInput.value.trim();
+  } else if (aiService === 'grok') {
+    apiKey = grokApiKeyInput.value.trim();
   }
   
   if (!apiKey) {
@@ -269,6 +324,10 @@ translateCustomBtn.addEventListener('click', async () => {
     
     if (aiService === 'perplexity') {
       translatedText = await translateWithPerplexity(customText, apiKey, targetLang);
+    } else if (aiService === 'chatgpt') {
+      translatedText = await translateWithChatGPT(customText, apiKey, targetLang);
+    } else if (aiService === 'grok') {
+      translatedText = await translateWithGrok(customText, apiKey, targetLang);
     } else {
       translatedText = await translateWithGemini(customText, apiKey, targetLang);
     }
@@ -365,6 +424,94 @@ async function translateWithPerplexity(text, apiKey, targetLanguage) {
   
   if (!data.choices || !data.choices[0]?.message?.content) {
     throw new Error('Invalid Perplexity API response format');
+  }
+  
+  return data.choices[0].message.content.trim();
+}
+
+// Translate using ChatGPT API
+async function translateWithChatGPT(text, apiKey, targetLanguage) {
+  const CHATGPT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+  const systemPrompt = `You are a professional translator. Translate the following text into ${targetLanguage}. Only return the translated text, no explanations.`;
+  
+  const requestBody = {
+    model: 'gpt-4o-mini',
+    messages: [
+      {
+        role: 'system',
+        content: systemPrompt
+      },
+      {
+        role: 'user',
+        content: 'Text to translate:\n' + text
+      }
+    ],
+    temperature: 0.3,
+    max_tokens: 2048
+  };
+  
+  const response = await fetch(CHATGPT_API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify(requestBody)
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || `API error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  
+  if (!data.choices || !data.choices[0]?.message?.content) {
+    throw new Error('Invalid ChatGPT API response format');
+  }
+  
+  return data.choices[0].message.content.trim();
+}
+
+// Translate using Grok API
+async function translateWithGrok(text, apiKey, targetLanguage) {
+  const GROK_API_ENDPOINT = 'https://api.x.ai/v1/chat/completions';
+  const systemPrompt = `You are a professional translator. Translate the following text into ${targetLanguage}. Only return the translated text, no explanations.`;
+  
+  const requestBody = {
+    model: 'grok-beta',
+    messages: [
+      {
+        role: 'system',
+        content: systemPrompt
+      },
+      {
+        role: 'user',
+        content: 'Text to translate:\n' + text
+      }
+    ],
+    temperature: 0.3,
+    max_tokens: 2048
+  };
+  
+  const response = await fetch(GROK_API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify(requestBody)
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || `API error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  
+  if (!data.choices || !data.choices[0]?.message?.content) {
+    throw new Error('Invalid Grok API response format');
   }
   
   return data.choices[0].message.content.trim();
